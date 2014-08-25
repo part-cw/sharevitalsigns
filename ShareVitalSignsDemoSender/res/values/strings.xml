@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ShareVitalSign Demo</string>
+    <string name="title_activity_main">ShareVitalSigns Demo</string>
+    <string name="welcome_message">Test your phone for apps complying with the ShareVitalSigns standard</string>
+    <string name="get_heartrate">send HR</string>
+    <string name="units_heartrate">beats/min</string>
+    <string name="editText_heartrateHint">HR</string>
+    <string name="editText_heartrateCHint">C</string>
+    <string name="get_respiratoryrate">send RR</string>
+    <string name="units_respiratoryrate">breaths/min</string>
+    <string name="editText_respiratoryrateHint">RR</string>
+    <string name="editText_respiratoryrateCHint">C</string>
+    <string name="get_oxygensaturation">send SpO2</string>
+    <string name="units_oxygensaturation">%</string>
+    <string name="editText_oxygensaturationHint">SpO2</string>
+    <string name="editText_oxygensaturationCHint">C</string>
+    <string name="get_temperature">send Temp</string>
+    <string name="units_temperature">C</string>
+    <string name="units_Confidence">%</string>
+    <string name="editText_temperatureHint">Temp</string>
+    <string name="editText_temperatureCHint">C</string>
+    <string name="get_pulseoximetry">send Pulse Oximetry (HR &amp; SpO2)</string>
+    <string name="menu_settings">Settings</string>
+    <string name="editText_confidence">CONF</string>
+
+</resources>
