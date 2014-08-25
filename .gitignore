@@ -32,4 +32,4 @@ proguard-project.txt
 #others
 .settings
 project.properties
-
+lint.xml
