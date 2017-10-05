@@ -3,7 +3,6 @@ package org.ecemgroup.sharevitalsigns.library;
 import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 
 /** ShareVitalSigns Class
  * Library class which provides functions for sending vital signs and other medical data between android applications.
@@ -427,9 +426,9 @@ public class ShareVitalSigns  {
 				// Add ODK return fields
 				Bundle odk_responses = new Bundle();
 				odk_responses.putString(V_NAMELIST[vsindex], String.valueOf(Vval));
-				odk_responses.putString(V_NAMELIST[vsindex], String.valueOf(Cval));
+				odk_responses.putString(C_NAMELIST[vsindex], String.valueOf(Cval));
 				dataI.putExtra("odk_intent_bundle",odk_responses);
-				Log.i("ECEMSVS", "String: "+V_NAMELIST[vsindex]+ " " +String.valueOf(Vval));
+				dataI.putExtra("odk_intent_data", String.valueOf(Vval));
 			}
 		}
 		return dataI;
