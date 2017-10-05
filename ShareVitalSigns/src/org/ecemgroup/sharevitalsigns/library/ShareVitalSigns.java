@@ -427,7 +427,7 @@ public class ShareVitalSigns  {
 				Bundle odk_responses = new Bundle();
 				odk_responses.putString(V_NAMELIST[vsindex], String.valueOf(Vval));
 				odk_responses.putString(C_NAMELIST[vsindex], String.valueOf(Cval));
-				dataI.putExtra("odk_intent_bundle",odk_responses);
+				//dataI.putExtra("odk_intent_bundle",odk_responses);
 				dataI.putExtra("odk_intent_data", String.valueOf(Vval));
 			}
 		}
