@@ -1,7 +1,5 @@
 package org.ecemgroup.sharevitalsigns.library;
 
-
-
 import android.content.Intent;
 import android.app.Activity;
 
@@ -336,6 +334,12 @@ public class ShareVitalSigns  {
 			int providerCode=VitalSignsProvided;
 			if (ShareVitalSignsIntent.hasExtra(libraryclassname+"Measure")) {
 				int requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname+"Measure");
+				if (requestCode==0){
+					String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname+"Measure");
+					if (str != null && !str.isEmpty()) {
+						requestCode = Integer.parseInt(str);
+					}
+				}
 	
 				if ((requestCode & providerCode)>=requestCode){ 
 					return 1; //system does provide requested signal(s)
@@ -365,6 +369,12 @@ public class ShareVitalSigns  {
 
 		if (ShareVitalSignsIntent.hasExtra(libraryclassname+"Measure")) {
 			int requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname+"Measure");
+			if (requestCode==0){
+				String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname+"Measure");
+				if (str != null && !str.isEmpty()) {
+					requestCode = Integer.parseInt(str);
+				}
+			}
 			return requestCode;
 		} 
 
