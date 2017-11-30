@@ -1,9 +1,8 @@
 package org.ecemgroup.sharevitalsigns.library;
 
-
-
 import android.content.Intent;
 import android.app.Activity;
+import android.os.Bundle;
 
 /** ShareVitalSigns Class
  * Library class which provides functions for sending vital signs and other medical data between android applications.
@@ -177,8 +176,8 @@ public class ShareVitalSigns  {
 					confidence[i]=-3;
 
 					int vsindex=vitalsignsindex[i];
-					VitalSign[i]=libraryclassname+V_NAMELIST[vsindex];
-					String ConfVitalSign=libraryclassname+C_NAMELIST[vsindex];
+					VitalSign[i]=V_NAMELIST[vsindex];
+					String ConfVitalSign=C_NAMELIST[vsindex];
 
 
 					if (data.hasExtra(VitalSign[i])) { //correct measurement was performed
@@ -335,7 +334,13 @@ public class ShareVitalSigns  {
 		
 			int providerCode=VitalSignsProvided;
 			if (ShareVitalSignsIntent.hasExtra(libraryclassname+"Measure")) {
-				int requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname+"Measure");
+				String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname+"Measure");
+				int requestCode = 0;
+				if (str != null && !str.isEmpty()) {
+					requestCode = Integer.parseInt(str);
+				}else {
+					requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure");
+				}
 	
 				if ((requestCode & providerCode)>=requestCode){ 
 					return 1; //system does provide requested signal(s)
@@ -364,7 +369,13 @@ public class ShareVitalSigns  {
 	public  int getVitalSignsRequested( ){
 
 		if (ShareVitalSignsIntent.hasExtra(libraryclassname+"Measure")) {
-			int requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname+"Measure");
+			String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname+"Measure");
+			int requestCode = 0;
+			if (str != null && !str.isEmpty()) {
+				requestCode = Integer.parseInt(str);
+			}else {
+				requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure");
+			}
 			return requestCode;
 		} 
 
@@ -410,8 +421,14 @@ public class ShareVitalSigns  {
 				int index=(int) Math.pow(2,(double)vsindex);
 				float Vval =svsData.getResultVIndex(index);
 				int Cval =svsData.getResultCIndex(index);
-				dataI.putExtra(libraryclassname+V_NAMELIST[vsindex], Vval);
-				dataI.putExtra(libraryclassname+C_NAMELIST[vsindex], Cval);
+				dataI.putExtra(V_NAMELIST[vsindex], Vval);
+				dataI.putExtra(C_NAMELIST[vsindex], Cval);
+				// Add ODK return fields
+				Bundle odk_responses = new Bundle();
+				odk_responses.putString(V_NAMELIST[vsindex], String.valueOf(Vval));
+				odk_responses.putString(C_NAMELIST[vsindex], String.valueOf(Cval));
+				//dataI.putExtra("odk_intent_bundle",odk_responses);
+				dataI.putExtra("odk_intent_data", String.valueOf(Vval));
 			}
 		}
 		return dataI;
