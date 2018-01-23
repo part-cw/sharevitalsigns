@@ -135,9 +135,9 @@ public class ShareVitalSigns  {
 
 		VitalSignReceiver = resultreceiver; //
 		ShareVitalSignsRequested = measureCode; //
-		
-		//TODO open more specific intent targeted to vital sign requested with measure code
-		Intent launchMeasure = new Intent(libraryaddress+".MEASURE");
+
+		String intentAddress = libraryaddress+".MEASURE."+N_NAMELIST[Math.getExponent((double)measureCode)];
+		Intent launchMeasure = new Intent(intentAddress);
 		launchMeasure.putExtra(libraryclassname+"Measure", measureCode);
 	
 		return launchMeasure;
