@@ -7,13 +7,13 @@ import android.os.Bundle;
 /** ShareVitalSigns Class
  * Library class which provides functions for sending vital signs and other medical data between android applications.
  * The library can be used by a vital sign provider (e.g. that records this from a sensor) or a vital sign receiver (that displays or process this vital sign further).
- * Check  {@link ShareVitalSignsDemoReceiver} for an example of a receiver 
+ * Check  {@link ShareVitalSignsDemoReceiver} for an example of a receiver
  * Check  {@link ShareVitalSignsDemoSender} for an example of a provider
  * Check {@link RRate} for an example of a provider that records respiratory rate with tapping on the screen.
- * 
+ *
  * the library essentially uses {@link Intents}. More on intents check the Android developer website:
  * http://developer.android.com/guide/components/intents-filters.html
- * 
+ *
  * VitalSigns currently supported:
  * HR: 		Heart Rate					beats/min
  * RR: 		Respiratory Rate			breaths/min	
@@ -21,22 +21,22 @@ import android.os.Bundle;
  * SPO2:	Oxygen saturation			%
  * BP_SYS:	Blood pressure (Sys )		mmHg
  * BP_DIA:  Blood pressure (Sys )		mmHg
- * 
+ *
  * Combinations:
  * BP:		Blood pressure (Sys & Dia) 	mmHg & mmHg
- * PO:		Pulse oximetry (HR & SPO2)	beats/min & % 
- * 
+ * PO:		Pulse oximetry (HR & SPO2)	beats/min & %
+ *
  *
  * @author Walter Karlen (walter.karlen@ieee.org)
  * @version 0.1.0
- * 
+ *
  */
 public class ShareVitalSigns  {
 
 	private static final String libraryclassname = "ShareVitalSigns";
 	public static final String libraryaddress = "org.ecemgroup.sharevitalsigns";
 	
-	// Definitions for vital signs. can be used for requests 
+	// Definitions for vital signs. can be used for requests
 	public static final int MEASURE_HR = 1;
 	public static final int MEASURE_RR = 2;
 	public static final int MEASURE_SPO2 = 4;
@@ -45,6 +45,10 @@ public class ShareVitalSigns  {
 	public static final int MEASURE_BPDIA = 32;
 	public static final int MEASURE_BP = MEASURE_BPSYS | MEASURE_BPDIA;
 	public static final int MEASURE_PO = MEASURE_HR | MEASURE_SPO2;
+
+	// Definitions for states when requesting a vital sign
+	public static final int STATE_NEW = 1;	// Reset provider app
+	public static final int STATE_RESUME = 2;  // If provider app has been opened, display last measurements
 
 	//Definitions for vital sign  names
 	public static final String N_HR = "HR";
@@ -82,11 +86,11 @@ public class ShareVitalSigns  {
 	//Vital Signs are stored here for Receivers and Providers
 	public  ShareVitalSignsData svsData=new ShareVitalSignsData();
 	
-	//Saveguard Intent here  
+	//Saveguard Intent here
 	public Intent ShareVitalSignsIntent;
 	
 	
-	// 
+	//
 	private int VitalSignsProvided;
 	
 
@@ -109,8 +113,8 @@ public class ShareVitalSigns  {
 
 	/**
 	 * Interface for SVS results
-	 * 
-	 * 
+	 *
+	 *
 	 */
 	public interface ShareVitalSignsResultReceiver {
 
@@ -124,11 +128,11 @@ public class ShareVitalSigns  {
 
 	/**
 	 * This receiver method opens VitalSign Intent and requests a vital sign measurement externally using the Intent.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param resultReceiver
 	 * @param measureCode int of Vital Sign Code
-	 * 
+	 *
 	 * @return Intent   intent to be launched within activity
 	 */
 	public  Intent measureVitalSigns(ShareVitalSignsResultReceiver resultreceiver,int measureCode) {
@@ -146,13 +150,28 @@ public class ShareVitalSigns  {
 
 
 	/**
-	 * This receiver method reads the values returned from Intent and compares if requested and returned codes match. 
-	 * It further checks if the requested vital signs have been measured and if stores them in the object 
-	 * 
-	 * 
+	 * @see ShareVitalSigns#measureVitalSigns(ShareVitalSignsResultReceiver, int)
+	 *
+	 *
 	 * @param resultReceiver
 	 * @param measureCode int of Vital Sign Code
-	 * 
+	 * @param stateCode int of Vital Sign State
+	 *
+	 * @return Intent intent to be launched within activity
+	 */
+	public Intent measureVitalSigns(ShareVitalSignsResultReceiver resultreceiver, int measureCode, int stateCode) {
+		return measureVitalSigns(resultreceiver, measureCode).putExtra(libraryclassname + "State", stateCode);
+	}
+
+
+	/**
+	 * This receiver method reads the values returned from Intent and compares if requested and returned codes match.
+	 * It further checks if the requested vital signs have been measured and if stores them in the object
+	 *
+	 *
+	 * @param resultReceiver
+	 * @param measureCode int of Vital Sign Code
+	 *
 	 * @return boolean
 	 */
 	//@Override
@@ -209,9 +228,9 @@ public class ShareVitalSigns  {
 
 	
 	/**
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 */
 	private class ShareVitalSignsHandler {
 		
@@ -235,9 +254,9 @@ public class ShareVitalSigns  {
 
 	/**
 	
-	 * 
+	 *
 	 * @param requestCode
-	 * 
+	 *
 	 * @return ShareVitalsRequested
 	 */
 	private ShareVitalSignsHandler  initHandler(int requestCode ) {
@@ -267,9 +286,9 @@ public class ShareVitalSigns  {
 	//%%%%%%%%%%%%%%%%%%%%%%COMMON FUNCTIONS%%%%%%%%%%%%%%%%%%%%%%%
 
 	/**
-	 * This class is used to store vital sign data. 
+	 * This class is used to store vital sign data.
 	 * can be used to create an intent to send data or save data obtained through intent
-	 * 
+	 *
 	 */
 	public class ShareVitalSignsData {
 
@@ -279,10 +298,10 @@ public class ShareVitalSigns  {
 
 		/**
 		 * provides vital sign value stored in the result class
-		 * 
-		 * 
+		 *
+		 *
 		 * @param measureCode int of Vital Sign Code
-		 * 
+		 *
 		 * @return vitalsign  intent to be launched within activity
 		 */
 		public float getResultVIndex(int measureCode) {
@@ -301,9 +320,9 @@ public class ShareVitalSigns  {
 
 		/**
 		 * Transforms SVS code into table index
-		 * 
+		 *
 		 * @param measureCode int of Vital Sign Code
-		 * 
+		 *
 		 * @return index   index where requested vital sign is stored
 		 */
 		private int convertCodeToIndex(int measureCode){
@@ -316,18 +335,18 @@ public class ShareVitalSigns  {
 			Data_V[0]=-1;
 			Data_C[0]=-1;
 		}
-	} 
+	}
 
 	//%%%%%%%%%%%%%%%%%%%%%%PROVIDER METHODS%%%%%%%%%%%%%%%%%%%%%%%
 	
 	/**
-	 * This is a SVS provider method that reads the values returned from Intent and compares if requested and returned codes match. 
-	 * It further checks if the requested vital signs have been measured and if stores them in the object 
-	 * 
-	 * 
+	 * This is a SVS provider method that reads the values returned from Intent and compares if requested and returned codes match.
+	 * It further checks if the requested vital signs have been measured and if stores them in the object
+	 *
+	 *
 	 * @param resultReceiver
 	 * @param measureCode int of Vital Sign Code
-	 * 
+	 *
 	 * @return int 1 OK, negative if sign not avail, 0 if wrong intent
 	 */
 	public  int chkIntent( ){
@@ -342,7 +361,7 @@ public class ShareVitalSigns  {
 					requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure");
 				}
 	
-				if ((requestCode & providerCode)>=requestCode){ 
+				if ((requestCode & providerCode)>=requestCode){
 					return 1; //system does provide requested signal(s)
 				}
 				else if ((requestCode & providerCode)>0){
@@ -351,7 +370,7 @@ public class ShareVitalSigns  {
 				} else {
 					return -2; //signal(s) not available
 				}
-			} 
+			}
 		
 		return 0; //wrong Intent
 
@@ -360,8 +379,8 @@ public class ShareVitalSigns  {
 	/**
 	 * This is a SVS provider method checks if any vital signs  have been requested and
 	 * returns the code if a request is valid
-	 * 
-	 * 
+	 *
+	 *
 	 * @return int  0 wrong intent, else code of vs
 	 */
 	
@@ -377,7 +396,33 @@ public class ShareVitalSigns  {
 				requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure");
 			}
 			return requestCode;
-		} 
+		}
+
+		return 0; //not a SVS Intent
+
+	}
+
+	/**
+	 * This is a SVS provider method checks if any state has been requested with the sign
+	 * returns the code if a request is valid
+	 *
+	 *
+	 * @return int  0 wrong intent, else code of state
+	 */
+
+
+	public int getStateRequested() {
+
+		if (ShareVitalSignsIntent.hasExtra(libraryclassname + "State")) {
+			String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname + "State");
+			int requestCode = 0;
+			if (str != null && !str.isEmpty()) {
+				requestCode = Integer.parseInt(str);
+			} else {
+				requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "State");
+			}
+			return requestCode;
+		}
 
 		return 0; //not a SVS Intent
 
@@ -385,11 +430,11 @@ public class ShareVitalSigns  {
 
 	/**
 	 * This provider method stores a value and confidence for a given vital sign to the data class
-	 * 
+	 *
 	 * @param measureCode int of Vital Sign Code
 	 * @param value  Vital Sign value
 	 * @param confidence Vital Sign Confidence
-	 * 
+	 *
 	 */
 	public void saveVitalSign(int measureCode,float value, int confidence) {
 
@@ -400,10 +445,10 @@ public class ShareVitalSigns  {
 	}
 
 	/**
-	 * This provider method creates an intent for the requested vital signs 
-	 * with data stored in data class 
-	 * 
-	 * 
+	 * This provider method creates an intent for the requested vital signs
+	 * with data stored in data class
+	 *
+	 *
 	 * @return Intent
 	 */
 	public Intent prepareIntent() {
