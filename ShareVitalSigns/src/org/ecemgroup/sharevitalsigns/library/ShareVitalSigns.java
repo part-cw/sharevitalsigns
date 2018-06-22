@@ -33,53 +33,61 @@ import android.os.Bundle;
 public class ShareVitalSigns {
 
     private static final String libraryclassname = "ShareVitalSigns";
-    public static final String libraryaddress = "org.ecemgroup.sharevitalsigns";
+    public  static final String libraryaddress   = "org.ecemgroup.sharevitalsigns";
 
     // Definitions for vital signs. can be used for requests
-    public static final int MEASURE_HR = 1;
-    public static final int MEASURE_RR = 2;
-    public static final int MEASURE_SPO2 = 4;
-    public static final int MEASURE_TEMP = 8;
-    public static final int MEASURE_BPSYS = 16;
-    public static final int MEASURE_BPDIA = 32;
-    public static final int MEASURE_BP = MEASURE_BPSYS | MEASURE_BPDIA;
-    public static final int MEASURE_PO = MEASURE_HR | MEASURE_SPO2;
+    public static final int MEASURE_HR      = 1;
+    public static final int MEASURE_RR      = 2;
+    public static final int MEASURE_SPO2    = 4;
+    public static final int MEASURE_TEMP    = 8;
+    public static final int MEASURE_BPSYS   = 16;
+    public static final int MEASURE_BPDIA   = 32;
+    public static final int MEASURE_RRTAPS  = 64;
+    public static final int MEASURE_BP      = MEASURE_BPSYS | MEASURE_BPDIA;
+    public static final int MEASURE_PO      = MEASURE_HR    | MEASURE_SPO2;
+    public static final int MEASURE_RRATE   = MEASURE_RR    | MEASURE_RRTAPS;
 
     // Definitions for states when requesting a vital sign
-    public static final int STATE_NEW = 1;     // Reset provider app
+    public static final int STATE_NEW    = 1;  // Reset provider app
     public static final int STATE_RESUME = 2;  // If provider app has been opened, display last measurements
 
     //Definitions for vital sign  names
-    public static final String N_HR = "HR";
-    public static final String N_RR = "RR";
-    public static final String N_SPO2 = "SPO2";
-    public static final String N_TEMP = "TEMP";
-    public static final String N_BP = "BP";
-    public static final String N_PO = "PO";
-    public static final String N_BPSYS = "BPSYS";
-    public static final String N_BPDIA = "BPDIA";
+    public static final String N_HR     = "HR";
+    public static final String N_RR     = "RR";
+    public static final String N_SPO2   = "SPO2";
+    public static final String N_TEMP   = "TEMP";
+    public static final String N_BP     = "BP";
+    public static final String N_PO     = "PO";
+    public static final String N_BPSYS  = "BPSYS";
+    public static final String N_BPDIA  = "BPDIA";
+    public static final String N_RRTAPS = "RRTAPS";
+    public static final String N_RRATE  = "RRATE";
 
     //Definitions for vital sign extras field names
-    public static final String V_HR = libraryclassname + "Value_HR";
-    public static final String V_RR = libraryclassname + "Value_RR";
-    public static final String V_SPO2 = libraryclassname + "Value_SPO2";
-    public static final String V_TEMP = libraryclassname + "Value_TEMP";
-    public static final String V_BP = libraryclassname + "Value_BP";
-    public static final String V_PO = libraryclassname + "Value_PO";
-    public static final String V_BPSYS = libraryclassname + "Value_BPSYS";
-    public static final String V_BPDIA = libraryclassname + "Value_BPDIA";
-    public static final String C_HR = libraryclassname + "Confidence_HR";
-    public static final String C_RR = libraryclassname + "Confidence_RR";
-    public static final String C_SPO2 = libraryclassname + "Confidence_SPO2";
-    public static final String C_TEMP = libraryclassname + "Confidence_TEMP";
-    public static final String C_BP = libraryclassname + "Confidence_BP";
-    public static final String C_BPSYS = libraryclassname + "Confidence_BPSYS";
-    public static final String C_BPDIA = libraryclassname + "Confidence_BPDIA";
-    public static final String C_PO = libraryclassname + "Confidence_PO";
+    public static final String V_HR     = libraryclassname + "Value_HR";
+    public static final String V_RR     = libraryclassname + "Value_RR";
+    public static final String V_SPO2   = libraryclassname + "Value_SPO2";
+    public static final String V_TEMP   = libraryclassname + "Value_TEMP";
+    public static final String V_BP     = libraryclassname + "Value_BP";
+    public static final String V_PO     = libraryclassname + "Value_PO";
+    public static final String V_BPSYS  = libraryclassname + "Value_BPSYS";
+    public static final String V_BPDIA  = libraryclassname + "Value_BPDIA";
+    public static final String V_RRTAPS = libraryclassname + "Value_RRTAPS";
+    public static final String V_RRATE  = libraryclassname + "Value_RRATE";
+    public static final String C_HR     = libraryclassname + "Confidence_HR";
+    public static final String C_RR     = libraryclassname + "Confidence_RR";
+    public static final String C_SPO2   = libraryclassname + "Confidence_SPO2";
+    public static final String C_TEMP   = libraryclassname + "Confidence_TEMP";
+    public static final String C_BP     = libraryclassname + "Confidence_BP";
+    public static final String C_BPSYS  = libraryclassname + "Confidence_BPSYS";
+    public static final String C_BPDIA  = libraryclassname + "Confidence_BPDIA";
+    public static final String C_PO     = libraryclassname + "Confidence_PO";
+    public static final String C_RRTAPS = libraryclassname + "Confidence_RRTAPS";
+    public static final String C_RRATE  = libraryclassname + "Confidence_RRATE";
 
-    public static final String[] V_NAMELIST = {V_HR, V_RR, V_SPO2, V_TEMP, V_BPSYS, V_BPDIA};
-    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA};
-    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA};
+    public static final String[] V_NAMELIST = {V_HR, V_RR, V_SPO2, V_TEMP, V_BPSYS, V_BPDIA, V_RRTAPS};
+    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA, V_RRTAPS};
+    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA, V_RRTAPS};
 
 
     // Vital Signs are stored here for Receivers and Providers
@@ -110,8 +118,17 @@ public class ShareVitalSigns {
     /**
      * Interface for SVS results
      */
-    public interface ShareVitalSignsResultReceiver {
-        public void onResult(float[] vital, int[] confidence);
+    public static abstract class ShareVitalSignsResultReceiver {
+        public abstract void onResult(float[] vital, int[] confidence);
+        public void onResult(ShareVitalSignsDatum[] vital, int[] confidence) {
+            float[] floatVital = new float[vital.length];
+            for (int i = 0; i < vital.length; i++) {
+                if (vital[i].type == ShareVitalSignsDatumType.FLOAT) {
+                    floatVital[i] = vital[i].getFloat();
+                }
+            }
+            onResult(floatVital, confidence);
+        }
     }
 
     /**
@@ -164,12 +181,12 @@ public class ShareVitalSigns {
                 int[] vitalsignsindex = received.getVitalsignsindex();
                 int vitalsignsnb = received.getVitalsignsnb();
 
-                float[] val = new float[vitalsignsnb];
+                ShareVitalSignsDatum[] val = new ShareVitalSignsDatum[vitalsignsnb];
                 int[] confidence = new int[vitalsignsnb];
                 String[] VitalSign = new String[vitalsignsnb];
 
                 for (int i = 0; i < vitalsignsnb; i++) {
-                    val[i] = -3;
+                    val[i] = null;
                     confidence[i] = -3;
 
                     int vsindex = vitalsignsindex[i];
@@ -177,8 +194,9 @@ public class ShareVitalSigns {
                     String ConfVitalSign = C_NAMELIST[vsindex];
 
                     if (data.hasExtra(VitalSign[i])) { // correct measurement was performed
-                        val[i] = data.getFloatExtra(VitalSign[i], 0.0f);
-                        svsData.setResultVIndex((int) Math.pow(2, (double) vsindex), val[i]);
+                        int measureCode = (int) Math.pow(2, (double) vsindex);
+                        svsData.setResultVIndex(measureCode, data.getFloatExtra(VitalSign[i], 0.0f), data.getStringExtra(VitalSign[i]));
+                        val[i] = svsData.getResultVDatumIndex(measureCode);
                         if (data.hasExtra(ConfVitalSign)) {
                             confidence[i] = data.getIntExtra(ConfVitalSign, 0);
                         } else {
@@ -253,12 +271,55 @@ public class ShareVitalSigns {
 
     //%%%%%%%%%%%%%%%%%%%%%%COMMON FUNCTIONS%%%%%%%%%%%%%%%%%%%%%%%
 
+    private enum ShareVitalSignsDatumType {
+        FLOAT, STRING
+    }
+
+    public class ShareVitalSignsDatum {
+        public final ShareVitalSignsDatumType type;
+        private float floatDatum;
+        private String stringDatum;
+
+        public ShareVitalSignsDatum(float floatDatum, String stringDatum) {
+            if (stringDatum != null) {
+                this.stringDatum = stringDatum;
+                type = ShareVitalSignsDatumType.STRING;
+            } else {
+                this.floatDatum = floatDatum;
+                type = ShareVitalSignsDatumType.FLOAT;
+            }
+        }
+        public ShareVitalSignsDatum(float datum) {
+            floatDatum = datum;
+            type = ShareVitalSignsDatumType.FLOAT;
+        }
+        public ShareVitalSignsDatum(String datum) {
+            stringDatum = datum;
+            type = ShareVitalSignsDatumType.STRING;
+        }
+
+        public float getFloat() {
+            return floatDatum;
+        }
+        public String getString() {
+            return stringDatum;
+        }
+
+        public String valueOf() {
+            if (type == ShareVitalSignsDatumType.FLOAT) {
+                return String.valueOf(floatDatum);
+            } else {
+                return stringDatum;
+            }
+        }
+    }
+
     /**
      * This class is used to store vital sign data.
      * can be used to create an intent to send data or save data obtained through intent
      */
     public class ShareVitalSignsData {
-        private float[] Data_V = new float[Integer.SIZE];
+        private ShareVitalSignsDatum[] Data_V = new ShareVitalSignsDatum[Integer.SIZE];
         private int[] Data_C = new int[Integer.SIZE];
 
         /**
@@ -268,11 +329,20 @@ public class ShareVitalSigns {
          * @return vitalsign intent to be launched within activity
          */
         public float getResultVIndex(int measureCode) {
+            return getResultVDatumIndex(measureCode).getFloat();
+        }
+        public ShareVitalSignsDatum getResultVDatumIndex(int measureCode) {
             return Data_V[convertCodeToIndex(measureCode)];
         }
 
+        public void setResultVIndex(int measureCode, float floatValue, String stringValue) {
+            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(floatValue, stringValue);
+        }
         public void setResultVIndex(int measureCode, float value) {
-            this.Data_V[convertCodeToIndex(measureCode)] = value;
+            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(value);
+        }
+        public void setResultVIndex(int measureCode, String value) {
+            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(value);
         }
 
         public int getResultCIndex(int measureCode) {
@@ -294,7 +364,7 @@ public class ShareVitalSigns {
         }
 
         public ShareVitalSignsData() {
-            Data_V[0] = -1;
+            Data_V[0] = null;
             Data_C[0] = -1;
         }
     }
@@ -383,6 +453,12 @@ public class ShareVitalSigns {
             svsData.setResultCIndex(measureCode, confidence);
         }
     }
+    public void saveVitalSign(int measureCode, String value, int confidence) {
+        if (svsData != null) {
+            svsData.setResultVIndex(measureCode, value);
+            svsData.setResultCIndex(measureCode, confidence);
+        }
+    }
 
     /**
      * This provider method creates an intent for the requested vital signs
@@ -401,16 +477,18 @@ public class ShareVitalSigns {
             for (int i = 0; i < vitalsignsnb; i++) {
                 int vsindex = vitalsignsindex[i];
                 int index = (int) Math.pow(2, (double) vsindex);
-                float Vval = svsData.getResultVIndex(index);
-                int Cval = svsData.getResultCIndex(index);
-                dataI.putExtra(V_NAMELIST[vsindex], Vval);
-                dataI.putExtra(C_NAMELIST[vsindex], Cval);
-                // Add ODK return fields
                 Bundle odk_responses = new Bundle();
-                odk_responses.putString(V_NAMELIST[vsindex], String.valueOf(Vval));
+                ShareVitalSignsDatum Vval = svsData.getResultVDatumIndex(index);
+                if (Vval.type == ShareVitalSignsDatumType.FLOAT) {
+                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getFloat());
+                } else { // Vval.type == STRING case
+                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getString());
+                }
+                int Cval = svsData.getResultCIndex(index);
+                dataI.putExtra(C_NAMELIST[vsindex], Cval);
+                dataI.putExtra("odk_intent_data", Vval.valueOf());
+                odk_responses.putString(V_NAMELIST[vsindex], Vval.valueOf());
                 odk_responses.putString(C_NAMELIST[vsindex], String.valueOf(Cval));
-                //dataI.putExtra("odk_intent_bundle",odk_responses);
-                dataI.putExtra("odk_intent_data", String.valueOf(Vval));
             }
         }
 
