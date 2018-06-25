@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.app.Activity;
 import android.os.Bundle;
 
+import java.util.Arrays;
+
 /**
  * ShareVitalSigns Class
  * Library class which provides functions for sending vital signs and other medical data between android applications.
@@ -145,7 +147,6 @@ public class ShareVitalSigns {
         String intentAddress = libraryaddress + ".MEASURE." + N_NAMELIST[Math.getExponent((double) measureCode)];
         Intent launchMeasure = new Intent(intentAddress);
         launchMeasure.putExtra(libraryclassname + "Measure", measureCode);
-
         return launchMeasure;
     }
 
@@ -272,13 +273,13 @@ public class ShareVitalSigns {
     //%%%%%%%%%%%%%%%%%%%%%%COMMON FUNCTIONS%%%%%%%%%%%%%%%%%%%%%%%
 
     private enum ShareVitalSignsDatumType {
-        FLOAT, STRING
+        FLOAT, STRING, NONE
     }
 
     public class ShareVitalSignsDatum {
         public final ShareVitalSignsDatumType type;
         private float floatDatum;
-        private String stringDatum;
+        private String stringDatum = "";
 
         public ShareVitalSignsDatum(float floatDatum, String stringDatum) {
             if (stringDatum != null) {
@@ -296,6 +297,9 @@ public class ShareVitalSigns {
         public ShareVitalSignsDatum(String datum) {
             stringDatum = datum;
             type = ShareVitalSignsDatumType.STRING;
+        }
+        public ShareVitalSignsDatum() {
+            type = ShareVitalSignsDatumType.NONE;
         }
 
         public float getFloat() {
@@ -321,6 +325,7 @@ public class ShareVitalSigns {
     public class ShareVitalSignsData {
         private ShareVitalSignsDatum[] Data_V = new ShareVitalSignsDatum[Integer.SIZE];
         private int[] Data_C = new int[Integer.SIZE];
+        private ShareVitalSignsDatum noData = new ShareVitalSignsDatum();
 
         /**
          * provides vital sign value stored in the result class
@@ -364,7 +369,7 @@ public class ShareVitalSigns {
         }
 
         public ShareVitalSignsData() {
-            Data_V[0] = null;
+            Arrays.fill(Data_V, noData);
             Data_C[0] = -1;
         }
     }
