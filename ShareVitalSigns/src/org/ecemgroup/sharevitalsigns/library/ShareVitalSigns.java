@@ -88,8 +88,8 @@ public class ShareVitalSigns {
     public static final String C_RRATE  = libraryclassname + "Confidence_RRATE";
 
     public static final String[] V_NAMELIST = {V_HR, V_RR, V_SPO2, V_TEMP, V_BPSYS, V_BPDIA, V_RRTAPS};
-    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA, V_RRTAPS};
-    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA, V_RRTAPS};
+    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA, C_RRTAPS};
+    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA, N_RRTAPS};
 
 
     // Vital Signs are stored here for Receivers and Providers
@@ -266,6 +266,7 @@ public class ShareVitalSigns {
         ShareVitalSignsHandler received = new ShareVitalSignsHandler();
         received.setVitalsignsindex(vitalsignsindex);
         received.setVitalsignsnb(idx);
+
         return received;
     }
 
@@ -393,7 +394,6 @@ public class ShareVitalSigns {
             } else {
                 requestCode = ShareVitalSignsIntent.getIntExtra(libraryclassname + "Measure", 0);
             }
-
             if ((requestCode & providerCode) >= requestCode) {
                 return 1; // system does provide requested signal(s)
             } else if ((requestCode & providerCode) > 0) {
