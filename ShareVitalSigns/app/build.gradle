@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "28.0.0"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 17
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    publishNonDefault true
+}
+
+dependencies {
+    implementation 'com.android.support:support-v4:26.0.0-alpha1'
+}
+
+task deleteJar(type: Delete) {
+    delete 'build/outputs/jar/sharevitalsigns.jar'
+}
+
+task copyJar(type: Copy) {
+    dependsOn deleteJar
+    dependsOn "assembleRelease"
+    from('build/intermediates/packaged-classes/release/')
+    into('build/outputs/jar')
+    include('classes.jar')
+    rename('classes.jar', 'sharevitalsigns.jar')
+}
