@@ -18,16 +18,18 @@ import java.util.Arrays;
  * http://developer.android.com/guide/components/intents-filters.html
  * <p>
  * VitalSigns currently supported:
- * HR:          Heart Rate                  beats/min
- * RR:          Respiratory Rate            breaths/min
- * TEMP:        Temperature                 deg Celcius
- * SPO2:        Oxygen saturation           %
- * BP_SYS:      Blood pressure (Sys)        mmHg
- * BP_DIA:      Blood pressure (Sys)        mmHg
+ * HR:          Heart Rate                      beats/min
+ * RR:          Respiratory Rate                breaths/min
+ * TEMP:        Temperature                     deg Celcius
+ * SPO2:        Oxygen saturation               %
+ * BP_SYS:      Blood pressure (Sys)            mmHg
+ * BP_DIA:      Blood pressure (Sys)            mmHg
+ * RRTAPS:      Respiratory Rate tap times      semicolon-separated list of timestamps
  * <p>
  * Combinations:
- * BP:          Blood pressure (Sys & Dia)  mmHg & mmHg
- * PO:          Pulse oximetry (HR & SPO2)  beats/min & %
+ * BP:          Blood pressure (Sys & Dia)      mmHg & mmHg
+ * PO:          Pulse oximetry (HR & SPO2)      beats/min & %
+ * RRATE:       Respiratory Rate (RR & RRTAPS)  breaths/min & list of tap times
  *
  * @author Walter Karlen (walter.karlen@ieee.org)
  * @version 0.1.0
@@ -38,16 +40,16 @@ public class ShareVitalSigns {
     public  static final String libraryaddress   = "org.ecemgroup.sharevitalsigns";
 
     // Definitions for vital signs. can be used for requests
-    public static final int MEASURE_HR      = 1;
-    public static final int MEASURE_RR      = 2;
-    public static final int MEASURE_SPO2    = 4;
-    public static final int MEASURE_TEMP    = 8;
-    public static final int MEASURE_BPSYS   = 16;
-    public static final int MEASURE_BPDIA   = 32;
-    public static final int MEASURE_RRTAPS  = 64;
-    public static final int MEASURE_BP      = MEASURE_BPSYS | MEASURE_BPDIA;
-    public static final int MEASURE_PO      = MEASURE_HR    | MEASURE_SPO2;
-    public static final int MEASURE_RRATE   = MEASURE_RR    | MEASURE_RRTAPS;
+    public static final int MEASURE_HR     = 1;
+    public static final int MEASURE_RR     = 2;
+    public static final int MEASURE_SPO2   = 4;
+    public static final int MEASURE_TEMP   = 8;
+    public static final int MEASURE_BPSYS  = 16;
+    public static final int MEASURE_BPDIA  = 32;
+    public static final int MEASURE_RRTAPS = 64;
+    public static final int MEASURE_BP     = MEASURE_BPSYS | MEASURE_BPDIA;
+    public static final int MEASURE_PO     = MEASURE_HR    | MEASURE_SPO2;
+    public static final int MEASURE_RRATE  = MEASURE_RR    | MEASURE_RRTAPS;
 
     // Definitions for states when requesting a vital sign
     public static final int STATE_NEW    = 1;  // Reset provider app
@@ -108,8 +110,7 @@ public class ShareVitalSigns {
     }
 
     // init method for receiver (no provider is known)
-    public ShareVitalSigns() {
-    }
+    public ShareVitalSigns() {}
 
 
     //%%%%%%%%%%%%%%%%RECEIVER STUFF%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,6 +123,7 @@ public class ShareVitalSigns {
      */
     public static abstract class ShareVitalSignsResultReceiver {
         public abstract void onResult(float[] vital, int[] confidence);
+
         public void onResult(ShareVitalSignsDatum[] vital, int[] confidence) {
             float[] floatVital = new float[vital.length];
             for (int i = 0; i < vital.length; i++) {
@@ -486,8 +488,10 @@ public class ShareVitalSigns {
                 ShareVitalSignsDatum Vval = svsData.getResultVDatumIndex(index);
                 if (Vval.type == ShareVitalSignsDatumType.FLOAT) {
                     dataI.putExtra(V_NAMELIST[vsindex], Vval.getFloat());
-                } else { // Vval.type == STRING case
+                } else if (Vval.type == ShareVitalSignsDatumType.STRING) {
                     dataI.putExtra(V_NAMELIST[vsindex], Vval.getString());
+                } else { // Vval.type == NONE
+                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getFloat());
                 }
                 int Cval = svsData.getResultCIndex(index);
                 dataI.putExtra(C_NAMELIST[vsindex], Cval);
