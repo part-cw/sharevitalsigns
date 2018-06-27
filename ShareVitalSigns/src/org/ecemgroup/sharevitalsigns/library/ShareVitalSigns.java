@@ -127,9 +127,7 @@ public class ShareVitalSigns {
         public void onResult(ShareVitalSignsDatum[] vital, int[] confidence) {
             float[] floatVital = new float[vital.length];
             for (int i = 0; i < vital.length; i++) {
-                if (vital[i].type == ShareVitalSignsDatumType.FLOAT) {
-                    floatVital[i] = vital[i].getFloat();
-                }
+                floatVital[i] = vital[i].getFloat();
             }
             onResult(floatVital, confidence);
         }
@@ -275,35 +273,9 @@ public class ShareVitalSigns {
 
     //%%%%%%%%%%%%%%%%%%%%%%COMMON FUNCTIONS%%%%%%%%%%%%%%%%%%%%%%%
 
-    private enum ShareVitalSignsDatumType {
-        FLOAT, STRING, NONE
-    }
-
-    public class ShareVitalSignsDatum {
-        public final ShareVitalSignsDatumType type;
-        private float floatDatum;
-        private String stringDatum = "";
-
-        public ShareVitalSignsDatum(float floatDatum, String stringDatum) {
-            if (stringDatum != null) {
-                this.stringDatum = stringDatum;
-                type = ShareVitalSignsDatumType.STRING;
-            } else {
-                this.floatDatum = floatDatum;
-                type = ShareVitalSignsDatumType.FLOAT;
-            }
-        }
-        public ShareVitalSignsDatum(float datum) {
-            floatDatum = datum;
-            type = ShareVitalSignsDatumType.FLOAT;
-        }
-        public ShareVitalSignsDatum(String datum) {
-            stringDatum = datum;
-            type = ShareVitalSignsDatumType.STRING;
-        }
-        public ShareVitalSignsDatum() {
-            type = ShareVitalSignsDatumType.NONE;
-        }
+    public abstract class ShareVitalSignsDatum {
+        protected float floatDatum;
+        protected String stringDatum = "";
 
         public float getFloat() {
             return floatDatum;
@@ -312,12 +284,35 @@ public class ShareVitalSigns {
             return stringDatum;
         }
 
+        public abstract String valueOf();
+        public abstract Intent putExtra(Intent intent, String name);
+    }
+
+    public class ShareVitalSignsFloat extends ShareVitalSignsDatum {
+        public ShareVitalSignsFloat(float datum) {
+            floatDatum = datum;
+        }
+
         public String valueOf() {
-            if (type == ShareVitalSignsDatumType.FLOAT) {
-                return String.valueOf(floatDatum);
-            } else {
-                return stringDatum;
-            }
+            return String.valueOf(floatDatum);
+        }
+
+        public Intent putExtra(Intent intent, String name) {
+            return intent.putExtra(name, floatDatum);
+        }
+    }
+
+    public class ShareVitalSignsString extends ShareVitalSignsDatum {
+        public ShareVitalSignsString(String datum) {
+            stringDatum = datum;
+        }
+
+        public String valueOf() {
+            return stringDatum;
+        }
+
+        public Intent putExtra(Intent intent, String name) {
+            return intent.putExtra(name, stringDatum);
         }
     }
 
@@ -328,7 +323,7 @@ public class ShareVitalSigns {
     public class ShareVitalSignsData {
         private ShareVitalSignsDatum[] Data_V = new ShareVitalSignsDatum[Integer.SIZE];
         private int[] Data_C = new int[Integer.SIZE];
-        private ShareVitalSignsDatum noData = new ShareVitalSignsDatum();
+        private ShareVitalSignsDatum defaultData = new ShareVitalSignsFloat(0.0f);
 
         /**
          * provides vital sign value stored in the result class
@@ -344,13 +339,17 @@ public class ShareVitalSigns {
         }
 
         public void setResultVIndex(int measureCode, float floatValue, String stringValue) {
-            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(floatValue, stringValue);
+            if (stringValue != null) {
+                setResultVIndex(measureCode, stringValue);
+            } else {
+                setResultVIndex(measureCode, floatValue);
+            }
         }
         public void setResultVIndex(int measureCode, float value) {
-            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(value);
+            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsFloat(value);
         }
         public void setResultVIndex(int measureCode, String value) {
-            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsDatum(value);
+            this.Data_V[convertCodeToIndex(measureCode)] = new ShareVitalSignsString(value);
         }
 
         public int getResultCIndex(int measureCode) {
@@ -372,7 +371,7 @@ public class ShareVitalSigns {
         }
 
         public ShareVitalSignsData() {
-            Arrays.fill(Data_V, noData);
+            Arrays.fill(Data_V, defaultData);
             Data_C[0] = -1;
         }
     }
@@ -486,14 +485,8 @@ public class ShareVitalSigns {
                 int index = (int) Math.pow(2, (double) vsindex);
                 Bundle odk_responses = new Bundle();
                 ShareVitalSignsDatum Vval = svsData.getResultVDatumIndex(index);
-                if (Vval.type == ShareVitalSignsDatumType.FLOAT) {
-                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getFloat());
-                } else if (Vval.type == ShareVitalSignsDatumType.STRING) {
-                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getString());
-                } else { // Vval.type == NONE
-                    dataI.putExtra(V_NAMELIST[vsindex], Vval.getFloat());
-                }
                 int Cval = svsData.getResultCIndex(index);
+                Vval.putExtra(dataI, V_NAMELIST[vsindex]);
                 dataI.putExtra(C_NAMELIST[vsindex], Cval);
                 dataI.putExtra("odk_intent_data", Vval.valueOf());
                 odk_responses.putString(V_NAMELIST[vsindex], Vval.valueOf());
