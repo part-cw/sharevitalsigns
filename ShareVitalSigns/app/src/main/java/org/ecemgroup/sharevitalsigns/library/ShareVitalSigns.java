@@ -52,7 +52,7 @@ public class ShareVitalSigns {
     public static final int MEASURE_RRATE  = MEASURE_RR    | MEASURE_RRTAPS;
 
     // Definitions for states when requesting a vital sign
-    public static final int STATE_NEW    = 1;  // Reset provider app
+    public static final int STATE_NEW    = 1;  // Reset provider app to initial state
     public static final int STATE_RESUME = 2;  // If provider app has been opened, display last measurements
 
     //Definitions for vital sign  names
@@ -103,6 +103,11 @@ public class ShareVitalSigns {
 
     private int VitalSignsProvided;
 
+    // Extras to add to intent on requester's side
+    // and their key names in the intent
+    public int stateCode;
+    public static final String EXTRA_STATE  = libraryclassname + "State";
+
 
     // init method for a provider
     public ShareVitalSigns(int provider) {
@@ -147,18 +152,8 @@ public class ShareVitalSigns {
         String intentAddress = libraryaddress + ".MEASURE." + N_NAMELIST[Math.getExponent((double) measureCode)];
         Intent launchMeasure = new Intent(intentAddress);
         launchMeasure.putExtra(libraryclassname + "Measure", measureCode);
+        launchMeasure.putExtra(EXTRA_STATE, stateCode);
         return launchMeasure;
-    }
-
-    /**
-     * @param resultReceiver
-     * @param measureCode    int of Vital Sign Code
-     * @param stateCode      int of Vital Sign State
-     * @return Intent intent to be launched within activity
-     * @see ShareVitalSigns#measureVitalSigns(ShareVitalSignsResultReceiver, int)
-     */
-    public Intent measureVitalSigns(ShareVitalSignsResultReceiver resultReceiver, int measureCode, int stateCode) {
-        return measureVitalSigns(resultReceiver, measureCode).putExtra(libraryclassname + "State", stateCode);
     }
 
 
@@ -433,13 +428,13 @@ public class ShareVitalSigns {
      * @return int  0 wrong intent, else code of state
      */
     public int getStateRequested() {
-        if (ShareVitalSignsIntent.hasExtra(libraryclassname + "State")) {
-            String str = ShareVitalSignsIntent.getStringExtra(libraryclassname + "State");
+        if (ShareVitalSignsIntent.hasExtra(EXTRA_STATE)) {
+            String str = ShareVitalSignsIntent.getStringExtra(EXTRA_STATE);
             int requestCode;
             if (str != null && !str.isEmpty()) {
                 requestCode = Integer.parseInt(str);
             } else {
-                requestCode = ShareVitalSignsIntent.getIntExtra(libraryclassname + "State", 0);
+                requestCode = ShareVitalSignsIntent.getIntExtra(EXTRA_STATE, 0);
             }
             return requestCode;
         }
