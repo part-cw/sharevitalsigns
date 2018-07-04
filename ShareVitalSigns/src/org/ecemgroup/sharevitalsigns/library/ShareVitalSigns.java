@@ -402,7 +402,7 @@ public class ShareVitalSigns {
     }
 
     /**
-     * This is a SVS provider method checks if any vital signs  have been requested and
+     * This is a SVS provider method checks if any vital signs have been requested and
      * returns the code if a request is valid
      *
      * @return int 0 wrong intent, else code of vs
@@ -422,23 +422,12 @@ public class ShareVitalSigns {
     }
 
     /**
-     * This is a SVS provider method checks if any state has been requested with the sign
-     * returns the code if a request is valid
+     * This provider method gets the state sent in the intent
      *
-     * @return int  0 wrong intent, else code of state
+     * @return int
      */
-    public int getStateRequested() {
-        if (ShareVitalSignsIntent.hasExtra(EXTRA_STATE)) {
-            String str = ShareVitalSignsIntent.getStringExtra(EXTRA_STATE);
-            int requestCode;
-            if (str != null && !str.isEmpty()) {
-                requestCode = Integer.parseInt(str);
-            } else {
-                requestCode = ShareVitalSignsIntent.getIntExtra(EXTRA_STATE, 0);
-            }
-            return requestCode;
-        }
-        return 0; // not a SVS Intent
+    public int getExtraState() {
+        return ShareVitalSignsIntent.getIntExtra(EXTRA_STATE, 0);
     }
 
     /**
