@@ -40,58 +40,63 @@ public class ShareVitalSigns {
     public  static final String libraryaddress   = "org.ecemgroup.sharevitalsigns";
 
     // Definitions for vital signs. can be used for requests
-    public static final int MEASURE_HR     = 1;
-    public static final int MEASURE_RR     = 2;
-    public static final int MEASURE_SPO2   = 4;
-    public static final int MEASURE_TEMP   = 8;
-    public static final int MEASURE_BPSYS  = 16;
-    public static final int MEASURE_BPDIA  = 32;
-    public static final int MEASURE_RRTAPS = 64;
-    public static final int MEASURE_BP     = MEASURE_BPSYS | MEASURE_BPDIA;
-    public static final int MEASURE_PO     = MEASURE_HR    | MEASURE_SPO2;
-    public static final int MEASURE_RRATE  = MEASURE_RR    | MEASURE_RRTAPS;
+    public static final int MEASURE_HR      = 1;
+    public static final int MEASURE_RR      = 2;
+    public static final int MEASURE_SPO2    = 4;
+    public static final int MEASURE_TEMP    = 8;
+    public static final int MEASURE_BPSYS   = 16;
+    public static final int MEASURE_BPDIA   = 32;
+    public static final int MEASURE_RRTAPS  = 64;
+    public static final int MEASURE_POFILES = 128;
+    public static final int MEASURE_BP      = MEASURE_BPSYS  | MEASURE_BPDIA;
+    public static final int MEASURE_PO      = MEASURE_HR     | MEASURE_SPO2;
+    public static final int MEASURE_RRATE   = MEASURE_RR     | MEASURE_RRTAPS;
+    public static final int MEASURE_POWITHFILES = MEASURE_PO | MEASURE_POFILES;
 
     // Definitions for states when requesting a vital sign
     public static final int STATE_NEW    = 1;  // Reset provider app to initial state
     public static final int STATE_RESUME = 2;  // If provider app has been opened, display last measurements
 
     //Definitions for vital sign  names
-    public static final String N_HR     = "HR";
-    public static final String N_RR     = "RR";
-    public static final String N_SPO2   = "SPO2";
-    public static final String N_TEMP   = "TEMP";
-    public static final String N_BP     = "BP";
-    public static final String N_PO     = "PO";
-    public static final String N_BPSYS  = "BPSYS";
-    public static final String N_BPDIA  = "BPDIA";
-    public static final String N_RRTAPS = "RRTAPS";
-    public static final String N_RRATE  = "RRATE";
+    public static final String N_HR      = "HR";
+    public static final String N_RR      = "RR";
+    public static final String N_SPO2    = "SPO2";
+    public static final String N_TEMP    = "TEMP";
+    public static final String N_BP      = "BP";
+    public static final String N_PO      = "PO";
+    public static final String N_BPSYS   = "BPSYS";
+    public static final String N_BPDIA   = "BPDIA";
+    public static final String N_RRTAPS  = "RRTAPS";
+    public static final String N_RRATE   = "RRATE";
+    public static final String N_POFILES = "POFILES";
 
     //Definitions for vital sign extras field names
-    public static final String V_HR     = libraryclassname + "Value_HR";
-    public static final String V_RR     = libraryclassname + "Value_RR";
-    public static final String V_SPO2   = libraryclassname + "Value_SPO2";
-    public static final String V_TEMP   = libraryclassname + "Value_TEMP";
-    public static final String V_BP     = libraryclassname + "Value_BP";
-    public static final String V_PO     = libraryclassname + "Value_PO";
-    public static final String V_BPSYS  = libraryclassname + "Value_BPSYS";
-    public static final String V_BPDIA  = libraryclassname + "Value_BPDIA";
-    public static final String V_RRTAPS = libraryclassname + "Value_RRTAPS";
-    public static final String V_RRATE  = libraryclassname + "Value_RRATE";
-    public static final String C_HR     = libraryclassname + "Confidence_HR";
-    public static final String C_RR     = libraryclassname + "Confidence_RR";
-    public static final String C_SPO2   = libraryclassname + "Confidence_SPO2";
-    public static final String C_TEMP   = libraryclassname + "Confidence_TEMP";
-    public static final String C_BP     = libraryclassname + "Confidence_BP";
-    public static final String C_BPSYS  = libraryclassname + "Confidence_BPSYS";
-    public static final String C_BPDIA  = libraryclassname + "Confidence_BPDIA";
-    public static final String C_PO     = libraryclassname + "Confidence_PO";
-    public static final String C_RRTAPS = libraryclassname + "Confidence_RRTAPS";
-    public static final String C_RRATE  = libraryclassname + "Confidence_RRATE";
+    public static final String V_HR      = libraryclassname + "Value_HR";
+    public static final String V_RR      = libraryclassname + "Value_RR";
+    public static final String V_SPO2    = libraryclassname + "Value_SPO2";
+    public static final String V_TEMP    = libraryclassname + "Value_TEMP";
+    public static final String V_BP      = libraryclassname + "Value_BP";
+    public static final String V_PO      = libraryclassname + "Value_PO";
+    public static final String V_BPSYS   = libraryclassname + "Value_BPSYS";
+    public static final String V_BPDIA   = libraryclassname + "Value_BPDIA";
+    public static final String V_RRTAPS  = libraryclassname + "Value_RRTAPS";
+    public static final String V_RRATE   = libraryclassname + "Value_RRATE";
+    public static final String V_POFILES = libraryclassname + "Value_POFILES";
+    public static final String C_HR      = libraryclassname + "Confidence_HR";
+    public static final String C_RR      = libraryclassname + "Confidence_RR";
+    public static final String C_SPO2    = libraryclassname + "Confidence_SPO2";
+    public static final String C_TEMP    = libraryclassname + "Confidence_TEMP";
+    public static final String C_BP      = libraryclassname + "Confidence_BP";
+    public static final String C_BPSYS   = libraryclassname + "Confidence_BPSYS";
+    public static final String C_BPDIA   = libraryclassname + "Confidence_BPDIA";
+    public static final String C_PO      = libraryclassname + "Confidence_PO";
+    public static final String C_RRTAPS  = libraryclassname + "Confidence_RRTAPS";
+    public static final String C_RRATE   = libraryclassname + "Confidence_RRATE";
+    public static final String C_POFILES = libraryclassname + "Confidence_POFILES";
 
-    public static final String[] V_NAMELIST = {V_HR, V_RR, V_SPO2, V_TEMP, V_BPSYS, V_BPDIA, V_RRTAPS};
-    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA, C_RRTAPS};
-    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA, N_RRTAPS};
+    public static final String[] V_NAMELIST = {V_HR, V_RR, V_SPO2, V_TEMP, V_BPSYS, V_BPDIA, V_RRTAPS, V_POFILES};
+    public static final String[] C_NAMELIST = {C_HR, C_RR, C_SPO2, C_TEMP, C_BPSYS, C_BPDIA, C_RRTAPS, C_POFILES};
+    public static final String[] N_NAMELIST = {N_HR, N_RR, N_SPO2, N_TEMP, N_BPSYS, N_BPDIA, N_RRTAPS, N_POFILES};
 
 
     // Vital Signs are stored here for Receivers and Providers
