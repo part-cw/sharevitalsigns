@@ -196,10 +196,10 @@ public class ShareVitalSigns {
 
                     if (data.hasExtra(VitalSign[i])) { // correct measurement was performed
                         int measureCode = (int) Math.pow(2, (double) vsindex);
-                        svsData.setResultVIndex(measureCode, data.getFloatExtra(VitalSign[i], 0.0f), data.getStringExtra(VitalSign[i]));
+                        svsData.setResultVIndex(measureCode, data.getExtras().getFloat(VitalSign[i], 0.0f), data.getExtras().getString(VitalSign[i]));
                         val[i] = svsData.getResultVDatumIndex(measureCode);
                         if (data.hasExtra(ConfVitalSign)) {
-                            confidence[i] = data.getIntExtra(ConfVitalSign, 0);
+                            confidence[i] = data.getExtras().getInt(ConfVitalSign, 0);
                         } else {
                             confidence[i] = -1; // confidence was not available
                         }
@@ -388,12 +388,12 @@ public class ShareVitalSigns {
     public int chkIntent() {
         int providerCode = VitalSignsProvided;
         if (ShareVitalSignsIntent.hasExtra(libraryclassname + "Measure")) {
-            String str = ShareVitalSignsIntent.getStringExtra(libraryclassname + "Measure");
+            String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname + "Measure");
             int requestCode;
             if (str != null && !str.isEmpty()) {
                 requestCode = Integer.parseInt(str);
             } else {
-                requestCode = ShareVitalSignsIntent.getIntExtra(libraryclassname + "Measure", 0);
+                requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure", 0);
             }
             if ((requestCode & providerCode) >= requestCode) {
                 return 1; // system does provide requested signal(s)
@@ -414,12 +414,12 @@ public class ShareVitalSigns {
      */
     public int getVitalSignsRequested() {
         if (ShareVitalSignsIntent.hasExtra(libraryclassname + "Measure")) {
-            String str = ShareVitalSignsIntent.getStringExtra(libraryclassname + "Measure");
+            String str = ShareVitalSignsIntent.getExtras().getString(libraryclassname + "Measure");
             int requestCode;
             if (str != null && !str.isEmpty()) {
                 requestCode = Integer.parseInt(str);
             } else {
-                requestCode = ShareVitalSignsIntent.getIntExtra(libraryclassname + "Measure", 0);
+                requestCode = ShareVitalSignsIntent.getExtras().getInt(libraryclassname + "Measure", 0);
             }
             return requestCode;
         }
